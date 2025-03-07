@@ -153,7 +153,19 @@ for i in range(0, int(3*fps)):
         time.append(i/fps)
         # Exibir o ângulo na tela
         cv2.putText(frame, f"Angulo: {angulo:.2f} °", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 127, 127), 2)
-        
+        '''
+        kalman = cv2.KalmanFilter(2, 1)
+        kalman.measurementMatrix = np.array([[1, 0]], np.float32)
+        kalman.transitionMatrix = np.array([[1, 1], [0, 1]], np.float32)
+        kalman.processNoiseCov = np.array([[1, 0], [0, 1]], np.float32) * 1e-5
+        kalman.measurementNoiseCov = np.array([[1]], np.float32) * 0.01
+
+        # No loop principal, atualize o filtro de Kalman
+        predicao = kalman.predict()
+        medida = np.array([[angulo]], np.float32)
+        kalman.correct(medida)
+        angulo_suavizado = predicao[0][0]
+        '''
     # Exibir o frame
     cv2.imshow('Tracking do Ponteiro', frame)
 
